@@ -7,7 +7,7 @@ export default class UserService {
 
     async createUser(user: IUser) {
         const { username, email, password } = user
-        this._model.create({username, email, password})
+        await this._model.create({username, email, password})
         return {cod: 201, message: 'Usuário cadastrado'}
     }
 }
