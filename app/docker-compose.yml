@@ -29,3 +29,15 @@ services:
       - ./backEnd/src:/app-back/src
     env_file:
       - ./backEnd/.env
+  
+  front:
+    container_name: lets-do-it-front
+    build: ./frontEnd
+    volumes:
+      - ./frontEnd/src:/app-front/src
+    ports:
+      - 3000:3000
+    depends_on:
+      back:
+        condition: service_healthy
+    working_dir: /app-front
