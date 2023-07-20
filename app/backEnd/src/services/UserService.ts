@@ -1,6 +1,6 @@
 import { ModelStatic } from "sequelize";
-import UserModel from "src/database/models/UserModel";
-import IUser from "src/interfaces/IUser";
+import UserModel from "../database/models/UserModel";
+import IUser from "../interfaces/IUser";
 
 export default class UserService {
     private _model: ModelStatic<UserModel> = UserModel;
