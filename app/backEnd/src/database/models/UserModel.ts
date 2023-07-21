@@ -3,7 +3,7 @@ import IUser from "src/interfaces/IUser";
 import db from '.';
 
 export default class UserModel extends Model implements IUser {
-    declare id: number;
+    declare id?: number;
     declare username: string;
     declare email: string;
     declare password: string;
@@ -18,7 +18,10 @@ UserModel.init({
     },
     username: STRING,
     email: STRING,
-    password: STRING,
+    password: {
+        type: STRING,
+        allowNull: false,
+    },
 }, {
     timestamps: false,
     underscored: true,
