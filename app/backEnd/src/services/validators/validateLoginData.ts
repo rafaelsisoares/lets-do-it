@@ -1,4 +1,4 @@
-import { ILogin, IValidate } from "src/interfaces";
+import { ILogin, IValidate } from "../../interfaces";
 import loginSchema from "./schemas";
 
 export default function validateLoginData(data: ILogin): IValidate {

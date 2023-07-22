@@ -1,9 +1,9 @@
 import { ModelStatic } from "sequelize";
 import * as bcrypt from 'bcrypt';
 import UserModel from "../database/models/UserModel";
-import IUser from "../interfaces/IUser";
-import IResponse from "../interfaces/IResponse";
+import { ILogin, IUser, IResponse } from '../interfaces';
 import generateToken from "../utils/generateToken";
+import validateLoginData from "./validators/validateLoginData";
 
 const saltRounds = 10;
 
@@ -20,5 +20,19 @@ export default class UserService {
         });
         const token = generateToken(dataValues);
         return {cod: 201, message: token};
+    }
+
+    async login(data: ILogin): Promise<IResponse> {
+        const { email, password } = data;
+        const { type } = validateLoginData({ email, password });
+        if (type) return { cod: 400, message: 'Invalid values' }
+        const user = await this._model.findOne({
+            where: { email },
+        });
+        if (!user || !bcrypt.compareSync(password, user.dataValues.password)) {
+            return { cod: 404, message: 'User Not Found' }
+        }
+        const token = generateToken(user.dataValues);
+        return { cod: 200, message: token };
     }
 }
