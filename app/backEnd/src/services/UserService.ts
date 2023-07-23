@@ -4,6 +4,7 @@ import UserModel from "../database/models/UserModel";
 import { ILogin, IUser, IResponse } from '../interfaces';
 import generateToken from "../utils/generateToken";
 import validateLoginData from "./validators/validateLoginData";
+import validateNewUserData from "./validators/validateNewUserData";
 
 const saltRounds = 10;
 
@@ -12,6 +13,8 @@ export default class UserService {
 
     async createUser(user: IUser): Promise<IResponse> {
         const { username, email, password } = user;
+        const { type, message } = validateNewUserData({ username, email, password });
+        if (type) return { cod: 400, message };
         const codePassword = await bcrypt.hash(password, saltRounds);
         const { dataValues } = await this._model.create({
             username,
@@ -19,13 +22,13 @@ export default class UserService {
             password: codePassword,
         });
         const token = generateToken(dataValues);
-        return {cod: 201, message: token};
+        return { cod: 201, message: token };
     }
 
     async login(data: ILogin): Promise<IResponse> {
         const { email, password } = data;
-        const { type } = validateLoginData({ email, password });
-        if (type) return { cod: 400, message: 'Invalid values' }
+        const { type, message } = validateLoginData({ email, password });
+        if (type) return { cod: 400, message }
         const user = await this._model.findOne({
             where: { email },
         });
