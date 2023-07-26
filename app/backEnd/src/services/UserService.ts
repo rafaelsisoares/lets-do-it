@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import UserModel from "../database/models/UserModel";
 import { ILogin, IUser, IResponse } from '../interfaces';
 import generateToken from "../utils/generateToken";
+import decodeToken from "../utils/decodeToken";
 import validateLoginData from "./validators/validateLoginData";
 import validateNewUserData from "./validators/validateNewUserData";
 
@@ -37,5 +38,21 @@ export default class UserService {
         }
         const token = generateToken(user.dataValues);
         return { cod: 200, message: token };
+    }
+
+    async getUserByToken(token: string | undefined): Promise<IResponse> {
+        if (!token) {
+            return { cod: 400, message: 'Token not found' };
+        }
+        try {
+            const user = decodeToken(token);
+            return {
+                cod: 200,
+                message: JSON.stringify(user),
+            };
+        } catch (e) {
+            console.error(e);
+            return { cod: 401, message: 'Access denied' };
+        }
     }
 }
