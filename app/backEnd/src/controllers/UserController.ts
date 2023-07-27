@@ -19,4 +19,10 @@ export default class UserController {
         const { cod, message } = await this._service.getUserByToken(authorization);
         return res.status(cod).json({ message: JSON.parse(message) })
     }
+
+    async updateUser(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { cod, message } = await this._service.updateUser(req.body, +id);
+        return res.status(cod).json({ message })
+    }
 }
