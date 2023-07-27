@@ -10,5 +10,6 @@ const router = Router();
 router.post('/', checkNewUserData, (req, res) => controller.createUser(req, res));
 router.get('/login', checkLoginData, (req, res) => controller.login(req, res));
 router.get('/', checkToken,  (req, res) => controller.getUserByToken(req, res));
+router.put('/:id', checkToken, checkNewUserData, (req, res) => controller.updateUser(req, res));
 
 export default router;
