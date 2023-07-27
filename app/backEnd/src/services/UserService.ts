@@ -6,6 +6,7 @@ import generateToken from "../utils/generateToken";
 import decodeToken from "../utils/decodeToken";
 import validateLoginData from "./validators/validateLoginData";
 import validateNewUserData from "./validators/validateNewUserData";
+import { newUserSchema } from "./validators/schemas";
 
 const saltRounds = 10;
 
@@ -54,5 +55,22 @@ export default class UserService {
             console.error(e);
             return { cod: 401, message: 'Access denied' };
         }
+    }
+
+    async updateUser(newData: IUser, id: number): Promise<IResponse> {
+        const { type, message } = validateNewUserData(newData);
+        if (type) return { cod: 400, message };
+        const { username, email, password } = newData;
+        const codePassword = await bcrypt.hash(password, saltRounds);
+        const affectedCount = await this._model.update({
+            username,
+            email,
+            password: codePassword,
+        }, { where: { id } });
+        if (affectedCount[0] === 0) {
+            return { cod: 404, message: 'User not found' };
+        }
+        return { cod: 200, message: 'User updated' };
+        
     }
 }
