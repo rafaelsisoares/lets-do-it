@@ -73,4 +73,12 @@ export default class UserService {
         return { cod: 200, message: 'User updated' };
         
     }
+
+    async removeUser(token: string, id: number): Promise<IResponse> {
+        const payload = decodeToken(token);
+        if (payload.id !== id) return { cod: 401, message: 'Invalid operation' };
+        const result = await this._model.destroy({ where: { id } });
+        if (result === 0) return { cod: 404, message: 'User not found' };
+        return { cod: 204, message: '' };
+    }
 }
