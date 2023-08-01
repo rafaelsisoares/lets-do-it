@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import TaskService from "src/services/TaskService";
+import TaskService from "../services/TaskService";
 
 export default class TaskController {
     private _service = new TaskService();

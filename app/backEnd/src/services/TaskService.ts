@@ -1,6 +1,6 @@
 import { ModelStatic } from "sequelize";
 import TaskModel from "../database/models/TaskModel";
-import { IResponse, ITask } from "src/interfaces";
+import { IResponse, ITask } from "../interfaces";
 
 export default class TaskService {
     private _model: ModelStatic<TaskModel> = TaskModel;
