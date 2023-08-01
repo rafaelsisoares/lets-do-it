@@ -1,4 +1,5 @@
 import express from 'express';
+import userRouter from './routes/UserRoutes';
 
 class App {
     public app: express.Express;
@@ -18,6 +19,7 @@ class App {
 
         this.app.use(express.json());
         this.app.use(accessControl);
+        this.app.use('/users', userRouter);
         this.app.get('/', (_req, res) => res.json({message: 'Working!'})) // - Rota para testar se o backend esta online
     }
 

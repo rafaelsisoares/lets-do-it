@@ -4,6 +4,8 @@
   "description": "Gerenciador de tarefas",
   "main": "index.js",
   "scripts": {
+    "start": "$(cd app && docker compose up -d)",
+    "stop": "$(cd app && docker compose down)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
