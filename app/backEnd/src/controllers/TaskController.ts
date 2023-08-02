@@ -8,4 +8,10 @@ export default class TaskController {
         const { cod, message } = await this._service.createTask(req.body);
         return res.status(cod).json({ message });
     }
+
+    async getTasksByUser(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { cod, message } = await this._service.getTasksByUser(+id);
+        return res.status(cod).json({ message });
+    }
 }
