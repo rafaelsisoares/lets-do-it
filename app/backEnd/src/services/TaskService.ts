@@ -17,4 +17,12 @@ export default class TaskService {
             return { cod: 400, message: 'Error' }
         }
     }
+
+    async getTasksByUser(id: number): Promise<IResponse> {
+        const result = await this._model.findAll({ where: { userId: id } });
+        if (result.length === 0) {
+            return { cod: 400, message: 'No tasks' };
+        }
+        return { cod: 200, message: result.map((task) => task.dataValues) };
+    }
 }
