@@ -6,7 +6,6 @@ import generateToken from "../utils/generateToken";
 import decodeToken from "../utils/decodeToken";
 import validateLoginData from "./validators/validateLoginData";
 import validateNewUserData from "./validators/validateNewUserData";
-import { newUserSchema } from "./validators/schemas";
 
 const saltRounds = 10;
 
