@@ -17,7 +17,7 @@ export default class UserController {
     async getUserByToken(req: Request, res: Response): Promise<Response> {
         const { authorization } = req.headers;
         const { cod, message } = await this._service.getUserByToken(authorization);
-        return res.status(cod).json({ message: JSON.parse(message) })
+        return res.status(cod).json({ message })
     }
 
     async updateUser(req: Request, res: Response): Promise<Response> {

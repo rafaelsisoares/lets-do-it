@@ -49,7 +49,7 @@ export default class UserService {
             const user = decodeToken(token);
             return {
                 cod: 200,
-                message: JSON.stringify(user),
+                message: [user],
             };
         } catch (e) {
             console.error(e);
