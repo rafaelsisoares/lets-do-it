@@ -1,11 +1,14 @@
 import { ModelStatic } from "sequelize";
 import TaskModel from "../database/models/TaskModel";
+import validateNewTaskData from "./validators/validateNewTaskData";
 import { IResponse, ITask } from "../interfaces";
 
 export default class TaskService {
     private _model: ModelStatic<TaskModel> = TaskModel;
 
     async createTask(task: ITask): Promise<IResponse> {
+        const { type, message } = validateNewTaskData(task);
+        if (type) return { cod: 400, message };
         try {
             const { dataValues } = await this._model.create({ ...task });
             return {
