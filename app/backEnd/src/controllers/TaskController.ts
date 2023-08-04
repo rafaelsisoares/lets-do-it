@@ -14,4 +14,10 @@ export default class TaskController {
         const { cod, message } = await this._service.getTasksByUser(+id);
         return res.status(cod).json({ message });
     }
+
+    async updateCompleted(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+        const { cod, message } = await this._service.updateCompleted(+id)
+        return res.status(cod).json({ message });
+    }
 }
