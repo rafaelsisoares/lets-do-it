@@ -2,6 +2,7 @@ import { ModelStatic } from "sequelize";
 import TaskModel from "../database/models/TaskModel";
 import validateNewTaskData from "./validators/validateNewTaskData";
 import { IResponse, ITask } from "../interfaces";
+import decodeToken from "../utils/decodeToken";
 
 export default class TaskService {
     private _model: ModelStatic<TaskModel> = TaskModel;
@@ -44,5 +45,16 @@ export default class TaskService {
             where: { id }
         });
         return { cod: 200, message: 'Task status updated!' };
+    }
+
+    async updateTask(id: number, token: string | undefined, task: ITask): Promise<IResponse> {
+        const { type, message } = validateNewTaskData(task);
+        if (type) return { cod: 400, message };
+        if (!token) return { cod: 401, message: 'Token not found' };
+        const user = decodeToken(token);
+        if (user.id !== task.userId) return { cod: 401, message: 'Invalid user' };
+        const affectedCount = await this._model.update({ ...task }, { where: { id } });
+        if (affectedCount[0] === 0) return { cod: 404, message: 'Task not found' };
+        return { cod: 200, message: 'Task updated' };
     }
 }
