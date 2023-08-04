@@ -28,4 +28,21 @@ export default class TaskService {
         }
         return { cod: 200, message: result.map((task) => task.dataValues) };
     }
+
+    async getTaskById(id: number): Promise<ITask | null> {
+        const result = await this._model.findOne({ where: { id } });
+        if (!result) return result;
+        return result.dataValues as ITask;
+    }
+
+    async updateCompleted(id: number): Promise<IResponse> {
+        const task = await this.getTaskById(id);
+        if (!task) return { cod: 404, message: 'Task not found' };
+        await this._model.update({
+            completed: !task.completed
+        }, {
+            where: { id }
+        });
+        return { cod: 200, message: 'Task status updated!' };
+    }
 }
