@@ -20,4 +20,11 @@ export default class TaskController {
         const { cod, message } = await this._service.updateCompleted(+id)
         return res.status(cod).json({ message });
     }
+
+    async updateTask(req: Request, res: Response): Promise<Response> {
+        const { authorization } = req.headers;
+        const { id } = req.params;
+        const { cod, message } = await this._service.updateTask(+id, authorization, req.body);
+        return res.status(cod).json({ message });
+    }
 }
