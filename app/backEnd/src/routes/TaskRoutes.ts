@@ -8,5 +8,6 @@ const router = Router();
 
 router.post('/', checkToken, checkNewTaskData, (req, res) => controller.createTask(req, res));
 router.get('/user/:id', checkToken, (req, res) => controller.getTasksByUser(req, res));
+router.put('/completed/:id', (req, res) => controller.updateCompleted(req, res));
 
 export default router;
