@@ -42,7 +42,7 @@ export default class UserService {
 
     async getUserByToken(token: string | undefined): Promise<IResponse> {
         if (!token) {
-            return { cod: 400, message: 'Token not found' };
+            return { cod: 401, message: 'Token not found' };
         }
         try {
             const user = decodeToken(token);
