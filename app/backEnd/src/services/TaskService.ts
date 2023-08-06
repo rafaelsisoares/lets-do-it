@@ -57,4 +57,14 @@ export default class TaskService {
         if (affectedCount[0] === 0) return { cod: 404, message: 'Task not found' };
         return { cod: 200, message: 'Task updated' };
     }
+
+    async removeTask(token: string | undefined, id: number): Promise<IResponse> {
+        if (!token) return { cod: 401, message: 'Token not found' };
+        const user = decodeToken(token);
+        const affectedCount = await this._model.destroy({
+            where: { id, userId: user.id },
+        });
+        if (!affectedCount) return { cod: 404, message: 'Task not found' };
+        return { cod: 204, message: '' };
+    }
 }
