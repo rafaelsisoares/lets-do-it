@@ -10,5 +10,6 @@ router.post('/', checkToken, checkNewTaskData, (req, res) => controller.createTa
 router.get('/user/:id', checkToken, (req, res) => controller.getTasksByUser(req, res));
 router.put('/completed/:id', checkToken, (req, res) => controller.updateCompleted(req, res));
 router.put('/:id', checkToken, checkNewTaskData, (req, res) => controller.updateTask(req, res));
+router.delete('/:id', checkToken, (req, res) => controller.removeTask(req, res));
 
 export default router;
