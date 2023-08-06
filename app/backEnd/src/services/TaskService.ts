@@ -52,8 +52,9 @@ export default class TaskService {
         if (type) return { cod: 400, message };
         if (!token) return { cod: 401, message: 'Token not found' };
         const user = decodeToken(token);
-        if (user.id !== task.userId) return { cod: 401, message: 'Invalid user' };
-        const affectedCount = await this._model.update({ ...task }, { where: { id } });
+        const affectedCount = await this._model.update({ ...task }, {
+            where: { id, userId: user.id },
+        });
         if (affectedCount[0] === 0) return { cod: 404, message: 'Task not found' };
         return { cod: 200, message: 'Task updated' };
     }
