@@ -6,7 +6,6 @@ import generateToken from "../utils/generateToken";
 import decodeToken from "../utils/decodeToken";
 import validateLoginData from "./validators/validateLoginData";
 import validateNewUserData from "./validators/validateNewUserData";
-import { newUserSchema } from "./validators/schemas";
 
 const saltRounds = 10;
 
@@ -43,13 +42,13 @@ export default class UserService {
 
     async getUserByToken(token: string | undefined): Promise<IResponse> {
         if (!token) {
-            return { cod: 400, message: 'Token not found' };
+            return { cod: 401, message: 'Token not found' };
         }
         try {
             const user = decodeToken(token);
             return {
                 cod: 200,
-                message: JSON.stringify(user),
+                message: [user],
             };
         } catch (e) {
             console.error(e);

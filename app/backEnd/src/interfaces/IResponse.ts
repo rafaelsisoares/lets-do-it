@@ -1,4 +1,4 @@
 export default interface IResponse {
     cod: number,
-    message: string,
+    message: string | object[],
 };
